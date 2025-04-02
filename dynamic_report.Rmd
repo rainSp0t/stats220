@@ -25,6 +25,13 @@ h2 {
 
 p {
   font-size: 16px;
+  border: 2px solid #4CAF50;  /* Green border */
+  background-color: #f4f4f4;  /* Light gray background */
+  padding: 15px;  
+  margin: 0px 300px;  
+  border-radius: 10px;  
+  font-family: Arial, sans-serif;  
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);  
 }
 
 img {
@@ -34,19 +41,6 @@ img {
   margin: 30px;
 }
 
-.chart-container {
-  text-align: center;
-}
-
-.text-box {
-  border: 2px solid #4CAF50;  /* Green border */
-  background-color: #f4f4f4;  /* Light gray background */
-  padding: 15px;  
-  margin: 0px 300px;  
-  border-radius: 10px;  
-  font-family: Arial, sans-serif;  
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);  
-}
 ```
 
 
@@ -102,16 +96,15 @@ least_common_activity <- activity_counts$activity_while_listening[which.min(acti
 ```
 
 
-<div class = "text-box">
 ## Insights into my Music Listening Habits and Device Usage
 
 This report explores my music consumption habits, where I tracked my listening data over 20 form entries across 2 days. The data includes the time spent listening to music, the genres I listened to, the devices I used, and the activities I engaged in while listening. Over 20 entries, the minimum listening time was `r min_listen` minutes,
 the maximum was `r max_listen` minutes,
 and the average listening time was `r round(mean_listen, 2)` minutes.
-</div>
 
 
-<div class="chart-container">
+
+
 ```{r bar charts, fig.width=10, fig.height=5}
 
 # Create bar chart for music genres
@@ -131,9 +124,8 @@ print(genre_plot)
 print(activity_plot)
 
 ```
-</div>
 
-<div class = "text-box">
+
 
 ## Music Genre Distribution
 
@@ -144,6 +136,5 @@ The first bar chart provides insights into the music genres I listened to the mo
 The second bar chart shows the different activities I was engaged in while listening to music. It illustrates the distribution of activities across the sessions. The second chart shows that I spend a significant portion of my time doing the activity "`r most_common_activity`" while listening to music. Other activities, such as `r least_common_activity` are also represented but appear less frequently. This shows that listening to music is a common companion for `r most_common_activity`, which highlights my typical music consumption habits.
 
 
-</div>
 
 
