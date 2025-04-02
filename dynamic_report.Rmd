@@ -1,0 +1,149 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+
+```
+
+```{css}
+body {
+  font-family: Arial, serif;
+  line-height: 1.6;
+  color: #333;
+  text-align: center;
+  line-height: 1.6;
+  
+}
+
+h2 {
+  color: #1E90FF;
+  font-weight: bold;
+}
+
+p {
+  font-size: 16px;
+}
+
+img {
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  margin: 30px;
+}
+
+.chart-container {
+  text-align: center;
+}
+
+.text-box {
+  border: 2px solid #4CAF50;  /* Green border */
+  background-color: #f4f4f4;  /* Light gray background */
+  padding: 15px;  
+  margin: 0px 300px;  
+  border-radius: 10px;  
+  font-family: Arial, sans-serif;  
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);  
+}
+```
+
+
+```{r load_data}
+
+library(tidyverse)
+
+# Load the Data
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vS-3fqwQXevuSe5mvLDxOMnA24dbgoSddSIZBmwtdrq61qM6n7QhViVMf0-gqEyJtQg3eRFQQzri5GZ/pub?gid=1710815067&single=true&output=csv")
+
+# Rename the Columns
+latest_data <- logged_data %>%
+  rename(minutes_listened = 2,
+         music_genre = 3,
+         device_used = 4,
+         activity_while_listening = 5)
+
+```
+
+```{r summaries}
+
+# Calculate summary values
+min_listen <- min(latest_data$minutes_listened, na.rm = TRUE)
+max_listen <- max(latest_data$minutes_listened, na.rm = TRUE)
+mean_listen <- mean(latest_data$minutes_listened, na.rm = TRUE)
+
+
+# Summaries for Genre Plot
+
+# Count occurrences of each genre
+genre_counts <- latest_data %>%
+  count(music_genre)
+
+# Get the mode (most frequently occurring genre)
+mode_genre <- genre_counts$music_genre[which.max(genre_counts$n)]
+
+# Calculate percentage of sessions for the most common genre
+most_common_genre_pct <- round((max(genre_counts$n) / sum(genre_counts$n)) * 100, 2)
+
+
+# Summaries for Activity Plot
+
+# Count occurrences of each activity
+activity_counts <- latest_data %>%
+  count(activity_while_listening) 
+  
+# Get the most common activity
+most_common_activity <- activity_counts$activity_while_listening[which.max(activity_counts$n)]
+
+# Get the least common activity
+least_common_activity <- activity_counts$activity_while_listening[which.min(activity_counts$n)]
+
+```
+
+
+<div class = "text-box">
+## Insights into my Music Listening Habits and Device Usage
+
+This report explores my music consumption habits, where I tracked my listening data over 20 form entries across 2 days. The data includes the time spent listening to music, the genres I listened to, the devices I used, and the activities I engaged in while listening. Over 20 entries, the minimum listening time was `r min_listen` minutes,
+the maximum was `r max_listen` minutes,
+and the average listening time was `r round(mean_listen, 2)` minutes.
+</div>
+
+
+<div class="chart-container">
+```{r bar charts, fig.width=10, fig.height=5}
+
+# Create bar chart for music genres
+genre_plot <- ggplot(latest_data, aes(x = music_genre)) +
+  geom_bar(fill = "steelblue") +
+  labs(title = "Distribution of Music Genres I Listened To", x = "Music Genre", y = "Count") +
+  theme_minimal()
+
+# Create bar chart for activities while listening
+activity_plot <- ggplot(latest_data, aes(x = activity_while_listening)) +
+  geom_bar(fill = "darkgreen") +
+  labs(title = "Activities While Listening to Music", x = "Activity", y = "Count") +
+  theme_minimal()
+
+# Display both plots
+print(genre_plot)
+print(activity_plot)
+
+```
+</div>
+
+<div class = "text-box">
+
+## Music Genre Distribution
+
+The first bar chart provides insights into the music genres I listened to the most over the 20 entries. It shows which genres were most frequently selected during my listening sessions. From the chart, we can observe the distribution of genres across the 20 listening sessions. R&B, Hip-Hop and Indie/Alternative are the most popular genres, with multiple sessions dedicated to these styles. Other genres like Pop, K-pop, and Lo-Fi also appear, but with fewer occurrences. Appearing in `r max(genre_counts$n)` sessions, the most common genre is `r mode_genre`, which accounts for `r most_common_genre_pct`% of all listening sessions. This suggests a strong preference for `r mode_genre` during the listening sessions. 
+
+## Activities While Listening to Music
+
+The second bar chart shows the different activities I was engaged in while listening to music. It illustrates the distribution of activities across the sessions. The second chart shows that I spend a significant portion of my time doing the activity "`r most_common_activity`" while listening to music. Other activities, such as `r least_common_activity` are also represented but appear less frequently. This shows that listening to music is a common companion for `r most_common_activity`, which highlights my typical music consumption habits.
+
+
+</div>
+
+
