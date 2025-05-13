@@ -1,0 +1,130 @@
+---
+title: My Spotify Listening Habits
+output: html_document
+---
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+```
+
+```{js}
+$(function() {
+  $(".level2").css('visibility', 'hidden');
+  $(".level2").first().css('visibility', 'visible');
+  $(".container-fluid").height($(".container-fluid").height() + 300);
+  $(window).on('scroll', function() {
+    $('h2').each(function() {
+      var h2Top = $(this).offset().top - $(window).scrollTop();
+      var windowHeight = $(window).height();
+      if (h2Top >= 0 && h2Top <= windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'visible');
+      } else if (h2Top > windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'hidden');
+      }
+    });
+  });
+})
+```
+
+```{css}
+.figcaption {display: none}
+
+body {
+  background-color: #ffffff;
+  font-family: Arial, sans-serif;
+  color: #002c1d;
+}
+
+h2 {
+  color: #238b45;
+}
+
+.plot-container {
+  border: 2px solid #66c2a4;
+  padding: 15px;
+  margin-bottom: 30px;
+  background-color: #e5f5f9;
+}
+
+img {
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+```
+
+## Introduction: What is this data?
+
+This data story is based on my personal music listening habits. Over a period of
+several days, I observed and logged each of my Spotify listening sessions using a Google Form I created. For every session, I recorded the duration (in minutes), music genre, device used, and what I was doing while listening. I also captured the timestamp so I could analyse patterns over time.
+
+Using this self-collected data, I explored three questions:
+
+1. Which music genres do I spend the most time listening to?
+
+2. What activities do I tend to pair with listening to music?
+
+3. Are there patterns in my listening across the week?
+
+
+## What genres take up the most of my time?
+
+Some genres clearly dominate my listening time. This chart shows the average number of minutes I spent listening to each genre.
+
+![Bar chart of average listening time by music genre](plot1.png)
+This bar chart shows the average number of minutes I spent listening to each genre across all sessions. 
+
+Hip-Hop and Lo-Fi had the highest average listening times, which may reflect their use during long, focused activities like gaming or studying
+
+Genres like R&B, K-pop, and Rock also showed relatively high engagement, possibly due to their upbeat and engaging nature.
+
+Electronic/Dance music had the lowest average listening time, which might be due to its use in shorter sessions, such as during quick workouts.
+
+The wide range of genres suggests a diverse music preference, though clearly skewed toward certain styles.
+
+This plot gives a clear view of what genres dominate my listening time overall.
+
+
+## What am I doing while I listen?
+
+This boxplot reveals how my activities affect the duration of my listening sessions.
+
+![Box plot of listening time by activity](plot2.png)
+This boxplot presents the distribution of listening durations grouped by activity.
+
+Gaming and Resting have the widest spread in listening times, indicating that these activities vary significantly in length and are often accompanied by music.
+
+Studying, Socializing, and Exercising tend to have tighter ranges, possibly reflecting more routine durations for these activities.
+
+Commuting sessions are generally short, and Cooking sessions had moderate durations with some variability.
+
+Outliers (dots) show that sometimes I listened much longer or shorter than typical for that activity - for example, long sessions while gaming or resting.
+
+This plot emphasizes that the context of the activity greatly affects how long I listen to music.
+
+
+## Activities While Listening
+
+This plot shows the genre types I listen to throughout the week. The "Mainstream" category combines the Pop, Rock, and Hip Hop genres, while the "Other" category encompasses all other genres.
+
+![Bar chart of listening sessions per weekday by genre type](plot3.png)
+
+
+Wednesday has the highest number of sessions (16), with a significant majority of those sessions coming from "Other" genres. This suggests that mid-week may be when I explore a wider range of music outside of mainstream genres.
+
+Monday shows a higher number of Mainstream sessions (4), indicating a preference for familiar or popular music to start the week. In contrast, mainstream genres are less prominent on other days.
+
+Friday and Tuesday have the lowest session counts, with just 2 sessions each, possibly reflecting either less time spent listening to music or a shift toward non-mainstream genres during these days.
+
+Weekends (particularly Saturday) show a more balanced mix of both Mainstream and Other genres, suggesting that weekends may involve a wider variety of music as I relax or engage in different activities.
+
+Overall, "Other" genres dominate throughout the week, especially on Wednesday, where non-mainstream music is the most prominent.
+
+
+
+
+
+
